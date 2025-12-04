@@ -43,7 +43,7 @@
 			maskedTextBoxYear = new MaskedTextBox();
 			textBoxGenre = new TextBox();
 			textBoxTitle = new TextBox();
-			maskedTextBox1 = new MaskedTextBox();
+			maskedTextBoxId = new MaskedTextBox();
 			labelid = new Label();
 			buttonAction = new Button();
 			statusStrip.SuspendLayout();
@@ -89,6 +89,7 @@
 			radioButtonUpdate.TabStop = true;
 			radioButtonUpdate.Text = "Обновить";
 			radioButtonUpdate.UseVisualStyleBackColor = true;
+			radioButtonUpdate.CheckedChanged += radioButtonUpdate_CheckedChanged;
 			// 
 			// radioButtonGet
 			// 
@@ -100,6 +101,7 @@
 			radioButtonGet.TabStop = true;
 			radioButtonGet.Text = "Получить";
 			radioButtonGet.UseVisualStyleBackColor = true;
+			radioButtonGet.CheckedChanged += radioButtonGet_CheckedChanged;
 			// 
 			// radioButtonDelete
 			// 
@@ -111,6 +113,7 @@
 			radioButtonDelete.TabStop = true;
 			radioButtonDelete.Text = "Удалить";
 			radioButtonDelete.UseVisualStyleBackColor = true;
+			radioButtonDelete.CheckedChanged += radioButtonDelete_CheckedChanged;
 			// 
 			// radioButtonAdd
 			// 
@@ -122,6 +125,7 @@
 			radioButtonAdd.TabStop = true;
 			radioButtonAdd.Text = "Добавить";
 			radioButtonAdd.UseVisualStyleBackColor = true;
+			radioButtonAdd.CheckedChanged += radioButtonAdd_CheckedChanged;
 			// 
 			// buttonChangeServer
 			// 
@@ -208,14 +212,14 @@
 			textBoxTitle.Size = new Size(188, 23);
 			textBoxTitle.TabIndex = 0;
 			// 
-			// maskedTextBox1
+			// maskedTextBoxId
 			// 
-			maskedTextBox1.Location = new Point(118, 110);
-			maskedTextBox1.Mask = "00000";
-			maskedTextBox1.Name = "maskedTextBox1";
-			maskedTextBox1.Size = new Size(94, 23);
-			maskedTextBox1.TabIndex = 5;
-			maskedTextBox1.ValidatingType = typeof(int);
+			maskedTextBoxId.Location = new Point(118, 110);
+			maskedTextBoxId.Mask = "00000";
+			maskedTextBoxId.Name = "maskedTextBoxId";
+			maskedTextBoxId.Size = new Size(94, 23);
+			maskedTextBoxId.TabIndex = 5;
+			maskedTextBoxId.ValidatingType = typeof(int);
 			// 
 			// labelid
 			// 
@@ -243,7 +247,7 @@
 			ClientSize = new Size(535, 279);
 			Controls.Add(buttonAction);
 			Controls.Add(labelid);
-			Controls.Add(maskedTextBox1);
+			Controls.Add(maskedTextBoxId);
 			Controls.Add(groupBoxMovie);
 			Controls.Add(buttonConnectSwitch);
 			Controls.Add(buttonChangeServer);
@@ -281,7 +285,7 @@
 		private MaskedTextBox maskedTextBoxYear;
 		private TextBox textBoxGenre;
 		private TextBox textBoxTitle;
-		private MaskedTextBox maskedTextBox1;
+		private MaskedTextBox maskedTextBoxId;
 		private Label labelid;
 		private Button buttonAction;
 	}
