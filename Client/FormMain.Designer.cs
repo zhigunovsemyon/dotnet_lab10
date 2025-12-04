@@ -28,12 +28,14 @@
 		private void InitializeComponent ()
 		{
 			this.statusStrip = new StatusStrip();
+			this.toolStripStatusLabelServerAddress = new ToolStripStatusLabel();
 			this.groupBoxAction = new GroupBox();
 			this.radioButtonUpdate = new RadioButton();
 			this.radioButtonGet = new RadioButton();
 			this.radioButtonDelete = new RadioButton();
 			this.radioButtonAdd = new RadioButton();
-			this.toolStripStatusLabelServerAddress = new ToolStripStatusLabel();
+			this.buttonChangeServer = new Button();
+			this.buttonConnectSwitch = new Button();
 			this.statusStrip.SuspendLayout();
 			this.groupBoxAction.SuspendLayout();
 			this.SuspendLayout();
@@ -46,6 +48,12 @@
 			this.statusStrip.Size = new Size(800, 22);
 			this.statusStrip.TabIndex = 0;
 			this.statusStrip.Text = "statusStrip1";
+			// 
+			// toolStripStatusLabelServerAddress
+			// 
+			this.toolStripStatusLabelServerAddress.Name = "toolStripStatusLabelServerAddress";
+			this.toolStripStatusLabelServerAddress.Size = new Size(148, 17);
+			this.toolStripStatusLabelServerAddress.Text = "Сервер для подключения";
 			// 
 			// groupBoxAction
 			// 
@@ -104,17 +112,32 @@
 			this.radioButtonAdd.Text = "Добавить";
 			this.radioButtonAdd.UseVisualStyleBackColor = true;
 			// 
-			// toolStripStatusLabelServerAddress
+			// buttonChangeServer
 			// 
-			this.toolStripStatusLabelServerAddress.Name = "toolStripStatusLabelServerAddress";
-			this.toolStripStatusLabelServerAddress.Size = new Size(148, 17);
-			this.toolStripStatusLabelServerAddress.Text = "Сервер для подключения";
+			this.buttonChangeServer.Location = new Point(118, 30);
+			this.buttonChangeServer.Name = "buttonChangeServer";
+			this.buttonChangeServer.Size = new Size(166, 23);
+			this.buttonChangeServer.TabIndex = 2;
+			this.buttonChangeServer.Text = "Изменить адрес сервера";
+			this.buttonChangeServer.UseVisualStyleBackColor = true;
+			this.buttonChangeServer.Click += this.buttonChangeServer_Click;
+			// 
+			// buttonConnectSwitch
+			// 
+			this.buttonConnectSwitch.Location = new Point(118, 59);
+			this.buttonConnectSwitch.Name = "buttonConnectSwitch";
+			this.buttonConnectSwitch.Size = new Size(166, 23);
+			this.buttonConnectSwitch.TabIndex = 3;
+			this.buttonConnectSwitch.Text = "Подключиться";
+			this.buttonConnectSwitch.UseVisualStyleBackColor = true;
 			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new SizeF(7F, 15F);
 			this.AutoScaleMode = AutoScaleMode.Font;
 			this.ClientSize = new Size(800, 450);
+			this.Controls.Add(this.buttonConnectSwitch);
+			this.Controls.Add(this.buttonChangeServer);
 			this.Controls.Add(this.groupBoxAction);
 			this.Controls.Add(this.statusStrip);
 			this.Name = "FormMain";
@@ -136,5 +159,7 @@
 		private RadioButton radioButtonGet;
 		private RadioButton radioButtonDelete;
 		private ToolStripStatusLabel toolStripStatusLabelServerAddress;
+		private Button buttonChangeServer;
+		private Button buttonConnectSwitch;
 	}
 }
