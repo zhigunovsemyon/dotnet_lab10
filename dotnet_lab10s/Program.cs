@@ -12,10 +12,10 @@ static class Program
 	private static readonly TimeSpan _saveInterval = TimeSpan.FromSeconds(10.0);
 	private const string _filename = "movies.json";
 
-	private static readonly JsonSerializerOptions _options = new() { WriteIndented = true};
+	private static readonly JsonSerializerOptions _options = new() { AllowTrailingCommas = true, WriteIndented = true};
 
 	/// <summary> Список фильмов </summary>
-	private static ConcurrentDictionary<int, Movie> _movieList = new();
+	private static ConcurrentDictionary<string, Movie> _movieList = new();
 
 	/// <summary> Адрес и порт для прослушивания </summary>
 	static readonly IPEndPoint listenTo = new IPEndPoint(IPAddress.IPv6Any, 9876);
@@ -65,7 +65,7 @@ static class Program
 		}
 		catch { }
 
-		_movieList = JsonSerializer.Deserialize<ConcurrentDictionary<int, Movie>>(json, _options) ?? new();
+		_movieList = JsonSerializer.Deserialize<ConcurrentDictionary<string, Movie>>(json, _options) ?? new();
 	}
 
 	/// <summary> Вывод списка фильмов </summary>
