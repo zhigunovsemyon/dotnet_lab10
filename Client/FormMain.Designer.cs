@@ -130,6 +130,7 @@
 			this.buttonConnectSwitch.TabIndex = 3;
 			this.buttonConnectSwitch.Text = "Подключиться";
 			this.buttonConnectSwitch.UseVisualStyleBackColor = true;
+			this.buttonConnectSwitch.Click += this.buttonConnectSwitch_Click;
 			// 
 			// FormMain
 			// 
