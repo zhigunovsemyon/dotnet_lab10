@@ -96,4 +96,26 @@ static class Program
 		sock.Shutdown(SocketShutdown.Both);
 		sock.Close();
 	}
+
+	/// <summary> Добавление новой записи или замена старой </summary>
+	/// <param name="movie">Новая запись</param>
+	/// <returns> true при удачном добавлении, false при ошибке </returns>
+	private static bool UpdateMovie (Movie movie)
+	{
+		string key = movie.Title.ToLower();
+		if(_movieList.TryGetValue(key, out var oldMovie)) {
+			_movieList.TryUpdate(key, movie, oldMovie);
+			return true;
+		}
+		return AddMovie(movie);
+	}
+
+	/// <summary> Добавление новой записи </summary>
+	/// <param name="movie">Новая запись</param>
+	/// <returns> true при удачном добавлении, false если такая запись уже есть </returns>
+	private static bool AddMovie (Movie movie)
+	{
+		string key = movie.Title.ToLower();
+		return _movieList.TryAdd(key, movie);
+	}
 }
