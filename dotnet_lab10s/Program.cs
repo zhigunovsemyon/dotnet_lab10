@@ -118,4 +118,22 @@ static class Program
 		string key = movie.Title.ToLower();
 		return _movieList.TryAdd(key, movie);
 	}
+
+	/// <summary> Удаление записи </summary>
+	/// <param name="movie">Запись</param>
+	/// <returns> true при удачном удалении, false при ошибке </returns>
+	private static bool DeleteMovie (Movie movie)
+	{
+		string key = movie.Title.ToLower();
+		return _movieList.TryRemove(key, out _);
+	}
+
+	/// <summary> Поиск записи </summary>
+	/// <param name="movie">Неполная запись с названием </param>
+	/// <returns> Запись при обнаружении, либо null </returns>
+	private static Movie? GetMovie (Movie movieKey)
+	{
+		string key = movieKey.Title.ToLower();
+		return _movieList.TryGetValue(key, out var movie) ? movie : null;
+	}
 }
