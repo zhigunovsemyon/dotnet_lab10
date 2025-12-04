@@ -116,59 +116,77 @@ public partial class FormMain : Form
 	}
 
 	/// <summary> Проверка идентификатора </summary>
-	private void VerifyId()
+	private bool VerifyId()
 	{
 		if (String.IsNullOrWhiteSpace(this.maskedTextBoxId.Text)) {
-			throw new Exception("Не указан идентификатор!");
+			MessageBox.Show("Не указан идентификатор!",
+				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return true;
 		}
+		return false;
 	}
 
 	/// <summary> Проверка содержимого полей  </summary>
-	private void VerifyFields()
+	private bool VerifyFields()
 	{
 		if (String.IsNullOrWhiteSpace(this.textBoxGenre.Text)) {
-			throw new InvalidMovieGenre("Не указан жанр!");
+			MessageBox.Show("Не указан жанр!",
+				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return true;
 		}
 		if (String.IsNullOrWhiteSpace(this.textBoxTitle.Text)) {
-			throw new InvalidMovieTitle("Не указано название!");
+			MessageBox.Show("Не указано название!",
+				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return true;
 		}
-		this.VerifyId();
 
 		if (!UInt16.TryParse(this.maskedTextBoxYear.Text, out UInt16 year)) {
-			throw new InvalidMovieYear("Не правильно указан год!");
+			MessageBox.Show("Не правильно указан год!",
+				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return true;
 		}
 		if (year < 1800 || year > 9999) {
-			throw new InvalidMovieYear("Не правильно указан год!");
+			MessageBox.Show("Не правильно указан год!",
+				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return true;
 		}
-		return;
+
+		return this.VerifyId();
 	}
 
 	/// <summary> Обработка нажатия на клавишу действия </summary>
 	private void buttonAction_Click(object sender, EventArgs e)
 	{
 		this.TrimFields();
-
-		try {
-			switch (this._activeRadio) {
-			case 'a':
-				this.VerifyFields();
-				break;
-			case 'g':
-				this.VerifyId();
-				break;
-			case 'u':
-				this.VerifyFields();
-				break;
-			case 'd':
-				this.VerifyId();
-				break;
-			default:
-				throw new NotImplementedException("this._activeRadio: неизвестное значение");
-			}
-		}
-		catch (Exception ex) {
-			MessageBox.Show($"Неправильно указаны данные!\r\n{ex.Message}",
+		if (_socket is null) {
+			MessageBox.Show("Нет подключения!",
 				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return;
+		}
+
+		switch (this._activeRadio) {
+		case 'a':
+			if (this.VerifyFields()) {
+				return;
+			}
+			break;
+		case 'g':
+			if (this.VerifyId()) {
+				return;
+			}
+			break;
+		case 'u':
+			if (this.VerifyFields()) {
+				return;
+			}
+			break;
+		case 'd':
+			if (this.VerifyId()) {
+				return;
+			}
+			break;
+		default:
+			throw new NotImplementedException("this._activeRadio: неизвестное значение");
 		}
 	}
 
