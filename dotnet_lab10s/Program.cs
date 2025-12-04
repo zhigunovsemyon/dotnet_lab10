@@ -18,7 +18,7 @@ static class Program
 	private static ConcurrentDictionary<int, Movie> _movieList = new();
 
 	/// <summary> Адрес и порт для прослушивания </summary>
-	static readonly IPEndPoint listenTo = IPEndPoint.Parse("0.0.0.0:9876");
+	static readonly IPEndPoint listenTo = new IPEndPoint(IPAddress.IPv6Any, 9876);
 
 	static void Main (string[] args)
 	{
@@ -28,6 +28,7 @@ static class Program
 		new Task (SaveFile).Start();
 
 		var listener = new Socket(listenTo.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+		listener.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
 
 		try {
 			listener.Bind(listenTo);
