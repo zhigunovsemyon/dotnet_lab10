@@ -111,31 +111,25 @@ public partial class FormMain : Form
 	{
 		this.textBoxGenre.Text = this.textBoxGenre.Text.Trim();
 		this.textBoxTitle.Text = this.textBoxTitle.Text.Trim();
-		this.maskedTextBoxId.Text = this.maskedTextBoxId.Text.Trim();
 		this.maskedTextBoxYear.Text = this.maskedTextBoxYear.Text.Trim();
 	}
 
-	/// <summary> Проверка идентификатора </summary>
-	private bool VerifyId()
+	/// <summary> Проверка содержимого поля названия </summary>
+	private bool VerifyTitle()
 	{
-		if (String.IsNullOrWhiteSpace(this.maskedTextBoxId.Text)) {
-			MessageBox.Show("Не указан идентификатор!",
+		if (String.IsNullOrWhiteSpace(this.textBoxTitle.Text)) {
+			MessageBox.Show("Не указано название!",
 				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			return true;
 		}
 		return false;
 	}
 
-	/// <summary> Проверка содержимого полей  </summary>
+	/// <summary> Проверка содержимого полей </summary>
 	private bool VerifyFields()
 	{
 		if (String.IsNullOrWhiteSpace(this.textBoxGenre.Text)) {
 			MessageBox.Show("Не указан жанр!",
-				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			return true;
-		}
-		if (String.IsNullOrWhiteSpace(this.textBoxTitle.Text)) {
-			MessageBox.Show("Не указано название!",
 				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			return true;
 		}
@@ -151,7 +145,7 @@ public partial class FormMain : Form
 			return true;
 		}
 
-		return this.VerifyId();
+		return VerifyTitle();
 	}
 
 	/// <summary> Обработка нажатия на клавишу действия </summary>
@@ -171,7 +165,7 @@ public partial class FormMain : Form
 			}
 			break;
 		case 'g':
-			if (this.VerifyId()) {
+			if (this.VerifyTitle()) {
 				return;
 			}
 			break;
@@ -181,7 +175,7 @@ public partial class FormMain : Form
 			}
 			break;
 		case 'd':
-			if (this.VerifyId()) {
+			if (this.VerifyTitle()) {
 				return;
 			}
 			break;
