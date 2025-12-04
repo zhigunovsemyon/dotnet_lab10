@@ -89,6 +89,8 @@ static class Program
 		var sock = o as Socket ?? throw new InvalidCastException("Program.Connection: o должен быть типа Socket");
 		sock.Send(Encoding.UTF8.GetBytes("Hello"));
 
+		Thread.Sleep(TimeSpan.FromMinutes(1));
+
 		sock.Shutdown(SocketShutdown.Both);
 		sock.Close();
 	}
