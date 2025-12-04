@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 
@@ -7,6 +8,7 @@ public partial class FormMain : Form
 {
 	private readonly FormIpChange _ipChange = new();
 
+	/// <summary> Сокет подключения к серверу </summary>
 	private Socket? _socket = null;
 
 	public FormMain ()
@@ -15,12 +17,18 @@ public partial class FormMain : Form
 		this.toolStripStatusLabelServerAddress.Text = $"Адрес подключения: {this._ipChange.Address}:{this._ipChange.Port}";
 	}
 
+	/// <summary> Нажатие на кнопку смены сервера </summary>
+	/// <param name="sender"></param>
+	/// <param name="e"></param>
 	private void buttonChangeServer_Click (object sender, EventArgs e)
 	{
 		this._ipChange.ShowDialog();
 		this.toolStripStatusLabelServerAddress.Text = $"Адрес подключения: {this._ipChange.Address}:{this._ipChange.Port}";
 	}
 
+	/// <summary> Получение IP адреса от DNS-сервера </summary>
+	/// <param name="dns"> Доменное имя </param>
+	/// <returns>Первый IP-адрес по запросу</returns>
 	private static IPAddress? ipFromDns (string dns)
 	{
 		try {
@@ -31,6 +39,7 @@ public partial class FormMain : Form
 		}
 	}
 
+	/// <summary> Создание конечной точки подключения по имени и порту </summary>
 	private static IPEndPoint? CreateEndPointFromServerInfo(string address, string port)
 	{
 		if (!IPAddress.TryParse(address, out IPAddress? addr)) {
@@ -43,20 +52,25 @@ public partial class FormMain : Form
 		return new IPEndPoint(addr, UInt16.Parse(port));
 	}
 
+	/// <summary> Нажатие кнопки подключения/отключения </summary>
+	/// <param name="sender"></param>
+	/// <param name="e"></param>
 	private void buttonConnectSwitch_Click (object sender, EventArgs e)
 	{
 		if (this._socket is not null) {
-			this.Disonnect(this._socket);
+			this.Disonnect();
 		} else {
 			this.Connect();
 		}
 	}
 
-	private void Disonnect (Socket sock)
+	/// <summary> Обработка отключения от сервера </summary>
+	private void Disonnect ()
 	{
+		Debug.Assert(this._socket != null);
 		try {
-			sock.Shutdown(SocketShutdown.Both);
-			sock.Close();
+			this._socket.Shutdown(SocketShutdown.Both);
+			this._socket.Close();
 		} catch (Exception e) {
 			MessageBox.Show($"Ошибка при отключении!\r\n{e.Message}", "Ошибка", 
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -64,6 +78,8 @@ public partial class FormMain : Form
 		this._socket = null;
 		this.buttonConnectSwitch.Text = "Подключиться";
 	}
+
+	/// <summary> Обработка подключения к серверу </summary>
 	private void Connect ()
 	{
 		var endPoint = CreateEndPointFromServerInfo(this._ipChange.Address, this._ipChange.Port);
