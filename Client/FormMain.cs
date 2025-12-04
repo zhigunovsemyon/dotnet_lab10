@@ -132,6 +132,7 @@ public partial class FormMain : Form
 		if (String.IsNullOrWhiteSpace(this.textBoxTitle.Text)) {
 			throw new InvalidMovieTitle("Не указано название!");
 		}
+		this.VerifyId();
 
 		if (!UInt16.TryParse(this.maskedTextBoxYear.Text, out UInt16 year)) {
 			throw new InvalidMovieYear("Не правильно указан год!");
@@ -139,21 +140,35 @@ public partial class FormMain : Form
 		if (year < 1800 || year > 9999) {
 			throw new InvalidMovieYear("Не правильно указан год!");
 		}
+		return;
 	}
 
 	/// <summary> Обработка нажатия на клавишу действия </summary>
 	private void buttonAction_Click(object sender, EventArgs e)
 	{
 		this.TrimFields();
-		this.VerifyId();
 
 		try {
-			this.VerifyFields();
+			switch (this._activeRadio) {
+			case 'a':
+				this.VerifyFields();
+				break;
+			case 'g':
+				this.VerifyId();
+				break;
+			case 'u':
+				this.VerifyFields();
+				break;
+			case 'd':
+				this.VerifyId();
+				break;
+			default:
+				throw new NotImplementedException("this._activeRadio: неизвестное значение");
+			}
 		}
 		catch (Exception ex) {
 			MessageBox.Show($"Неправильно указаны данные!\r\n{ex.Message}",
 				"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			return;
 		}
 	}
 
