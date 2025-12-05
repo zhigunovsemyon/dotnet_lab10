@@ -1,16 +1,19 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using System.Text.Json;
+using MovieLibrary;
 using MovieLibrary.MovieException;
 
 namespace Client;
 
 public partial class FormMain : Form
 {
+	/// <summary> Форма изменения адреса сервера </summary>
 	private readonly FormIpChange _ipChange = new();
 
-	// a d u g
-	private char _activeRadio = 'g';
+	/// <summary> Запрос, отправляемый на сервер </summary>
+	private readonly MovieRequest _request = new();
 
 	/// <summary> Сокет подключения к серверу </summary>
 	private Socket? _socket = null;
@@ -73,7 +76,10 @@ public partial class FormMain : Form
 	private void Disonnect()
 	{
 		Debug.Assert(this._socket != null);
+		var oldRequestType = this._request.Request;
+		//todo: отправить запрос на отключение (мб в трае)
 		try {
+
 			this._socket.Shutdown(SocketShutdown.Both);
 			this._socket.Close();
 		}
@@ -81,6 +87,7 @@ public partial class FormMain : Form
 			MessageBox.Show($"Ошибка при отключении!\r\n{e.Message}", "Ошибка",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
+		this._request.Request = oldRequestType;
 		this._socket = null;
 		this.buttonConnectSwitch.Text = "Подключиться";
 		this.buttonChangeServer.Enabled = true;
@@ -117,6 +124,7 @@ public partial class FormMain : Form
 	}
 
 	/// <summary> Проверка содержимого поля названия </summary>
+	/// <returns>true при ошибке, false при успехе</returns>
 	private bool VerifyTitle()
 	{
 		if (String.IsNullOrWhiteSpace(this.textBoxTitle.Text)) {
@@ -128,6 +136,7 @@ public partial class FormMain : Form
 	}
 
 	/// <summary> Проверка содержимого полей </summary>
+	/// <returns>true при ошибке, false при успехе</returns>
 	private bool VerifyFields()
 	{
 		if (String.IsNullOrWhiteSpace(this.textBoxGenre.Text)) {
@@ -150,6 +159,34 @@ public partial class FormMain : Form
 		return VerifyTitle();
 	}
 
+	/// <summary> Добавление данных о фильме в запрос серверу </summary>
+	/// <returns>true при ошибке, false при успехе</returns>
+	private bool AddMovieToRequest ()
+	{
+		if (this.VerifyFields()) {
+			return true;
+		}
+		var title = this.textBoxTitle.Text;
+		var genre = this.textBoxGenre.Text;
+		var year = Int16.Parse(this.maskedTextBoxYear.Text);
+		this._request.Movie = new Movie(title, genre, year);
+
+		return false;
+	}
+
+	/// <summary> Добавление названия фильма в запрос серверу </summary>
+	/// <returns>true при ошибке, false при успехе</returns>
+	private bool AddMovieTitleToRequest ()
+	{
+		if (this.VerifyTitle()) {
+			return true;
+		}
+		var title = this.textBoxTitle.Text;
+		this._request.Movie = new Movie(title, "", -1);
+
+		return false;
+	}
+
 	/// <summary> Обработка нажатия на клавишу действия </summary>
 	private void buttonAction_Click(object sender, EventArgs e)
 	{
@@ -160,35 +197,37 @@ public partial class FormMain : Form
 			return;
 		}
 
-		switch (this._activeRadio) {
-		case 'a':
-			if (this.VerifyFields()) {
+		switch (this._request.Request) {
+		case MovieRequest.RequestType.Add:			
+			if (this.AddMovieToRequest()) {
 				return;
 			}
 			break;
-		case 'g':
-			if (this.VerifyTitle()) {
+		case MovieRequest.RequestType.Get:
+			if (this.AddMovieTitleToRequest()) {
 				return;
 			}
 			break;
-		case 'u':
-			if (this.VerifyFields()) {
+		case MovieRequest.RequestType.Update:
+			if (this.AddMovieToRequest()) {
 				return;
 			}
 			break;
-		case 'd':
-			if (this.VerifyTitle()) {
+		case MovieRequest.RequestType.Delete:
+			if (this.AddMovieTitleToRequest()) {
 				return;
 			}
 			break;
 		default:
-			throw new NotImplementedException("this._activeRadio: неизвестное значение");
+			throw new NotImplementedException("this._request: неизвестное значение");
 		}
+
+		var json = JsonSerializer.Serialize(this._request);
 	}
 
 	private void radioButtonGet_CheckedChanged(object sender, EventArgs e)
 	{
-		this._activeRadio = 'g';
+		this._request.Request = MovieRequest.RequestType.Get;
 		this.textBoxGenre.Enabled = false;
 		this.maskedTextBoxYear.Enabled = false;
 	}
@@ -197,20 +236,20 @@ public partial class FormMain : Form
 	{ 
 		this.textBoxGenre.Enabled = false;
 		this.maskedTextBoxYear.Enabled = false;
-		this._activeRadio = 'd'; 
+		this._request.Request = MovieRequest.RequestType.Delete;
 	}
 
 	private void radioButtonAdd_CheckedChanged(object sender, EventArgs e)
 	{ 
 		this.textBoxGenre.Enabled = true;
 		this.maskedTextBoxYear.Enabled = true;
-		this._activeRadio = 'a'; 
+		this._request.Request = MovieRequest.RequestType.Add;
 	}
 
 	private void radioButtonUpdate_CheckedChanged(object sender, EventArgs e)
 	{ 
 		this.maskedTextBoxYear.Enabled = true;
 		this.textBoxGenre.Enabled = true;
-		this._activeRadio = 'u'; 
+		this._request.Request = MovieRequest.RequestType.Update;
 	}
 }

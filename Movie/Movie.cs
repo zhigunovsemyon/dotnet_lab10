@@ -3,39 +3,14 @@
 /// <summary> Запись о фильме </summary>
 public class Movie
 {
-	private string _title = "";
-	private string _genre = "";
-
 	/// <summary> Название </summary>
-	public string Title
-	{
-		get => _title;
-		set
-		{
-			if (String.IsNullOrWhiteSpace(value)) {
-				throw new MovieException.InvalidMovieTitle("Не указано название фильма");
-			} else { 
-				_title = value.Trim();
-			}
-		} 
-	}
+	public string Title { get; set; } = "";
 
 	/// <summary> Жанр </summary>
-	public string Genre
-	{
-		get => _genre;
-		set
-		{
-			if (String.IsNullOrWhiteSpace(value)) {
-				throw new MovieException.InvalidMovieTitle("Не указано название фильма");
-			} else {
-				_genre = value.Trim();
-			}
-		}
-	}
+	public string Genre { get; set; } = "";
 
 	/// <summary> Год выпуска </summary>
-	public Int16 Year { get; set; }
+	public Int16 Year { get; set; } = -1;
 
 	/// <summary> Пустой конструктор </summary>
 	public Movie () { }
