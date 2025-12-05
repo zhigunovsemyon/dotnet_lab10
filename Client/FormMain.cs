@@ -79,8 +79,7 @@ public partial class FormMain : Form
 	private void Disonnect()
 	{
 		Debug.Assert(this._socket != null);
-		var oldRequestType = this._request.Request;
-		//todo: отправить запрос на отключение (мб в трае)
+
 		try {
 
 			this._socket.Shutdown(SocketShutdown.Both);
@@ -90,7 +89,6 @@ public partial class FormMain : Form
 			MessageBox.Show($"Ошибка при отключении!\r\n{e.Message}", "Ошибка",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
-		this._request.Request = oldRequestType;
 		this._socket = null;
 		this.buttonConnectSwitch.Text = "Подключиться";
 		this.buttonChangeServer.Enabled = true;
