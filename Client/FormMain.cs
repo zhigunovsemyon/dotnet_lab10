@@ -15,8 +15,6 @@ public partial class FormMain : Form
 	/// <summary> Запрос, отправляемый на сервер </summary>
 	private readonly MovieRequest _request = new();
 
-	/// <summary> Буфер для запросов </summary>
-	private byte[] _buf = new byte[1024];
 
 	/// <summary> Сокет подключения к серверу </summary>
 	private Socket? _socket = null;
@@ -109,6 +107,8 @@ public partial class FormMain : Form
 			this.buttonConnectSwitch.Text = "Отключиться";
 			this.buttonChangeServer.Enabled = false;
 			this._socket = newSock;
+
+			new Task(WaitForResponse).Start();
 		}
 		catch (Exception e) {
 			MessageBox.Show($"Не удалось подключиться!\r\n{e.Message}", "Ошибка",
@@ -225,16 +225,103 @@ public partial class FormMain : Form
 		this.SendRequest();
 	}
 
+	/// <summary> Метод прослушивания сокета и обработки ответов сервера </summary>
+	private void WaitForResponse()
+	{
+		var buf = new byte[1024];
+		int received;
+
+		try {
+			while (this._socket is not null) {
+				if (0 == (received = this._socket.Receive(buf))) {
+					this.Disonnect();
+					break;
+				}
+				var json = Encoding.UTF8.GetString(buf, 0, received);
+				var response = JsonSerializer.Deserialize<MovieResponse>(json)
+					?? throw new Exception("FormMain.WaitForResponse: response is null!");
+				this.HandleResponse(response);
+			}
+		}
+		catch (Exception ex) {
+			MessageBox.Show($"Ошибка при получении запроса!\r\n{ex.Message}", "Ошибка",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
+	}
+
+	/// <summary> Обработка ответа сервера </summary>
+	/// <param name="response"> Объект ответа </param>
+	private void HandleResponse(MovieResponse response)
+	{
+		string message;
+		bool success;
+
+		switch (response.Response) {
+		case MovieResponse.ResponseType.NotFound:
+			message = "Данный фильм не найден!";
+			success = false;
+			break;
+		case MovieResponse.ResponseType.Error:
+			success = false;
+			MessageBox.Show($"Ошибка на стороне сервера!", "Ошибка",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return;
+		case MovieResponse.ResponseType.Found:
+			if (response.Movie is null) {
+				throw new FormMainExceptions.InvalidResponse("ResposeType.Found но response.Movie is null");
+			}
+			this.textBoxGenre.Invoke(() => this.textBoxGenre.Text = response.Movie.Genre);
+			this.textBoxTitle.Invoke(() => this.textBoxTitle.Text = response.Movie.Title);
+			this.maskedTextBoxYear.Invoke(() => this.maskedTextBoxYear.Text = response.Movie.Year.ToString());
+			success = true;
+			message = "Фильм есть в списке!";
+			break;
+		case MovieResponse.ResponseType.Added:
+			success = true;
+			message = "Данный фильм был успешно добавлен";
+			break;
+		case MovieResponse.ResponseType.Updated:
+			success = true;
+			message = "Данный фильм был успешно обновлён";
+			break;
+		case MovieResponse.ResponseType.NotUpdated:
+			success = false;
+			message = "Возникла ошибка при обновлении!";
+			break;
+		case MovieResponse.ResponseType.NotAdded:
+			success = false;
+			message = "Возникла ошибка при добавлении!";
+			break;
+		case MovieResponse.ResponseType.NotDeleted:
+			success = false;
+			message = "Возникла ошибка при удалении!";
+			break;
+		case MovieResponse.ResponseType.Deleted:
+			success = true;
+			message = "Данный фильм был успешно удалён";
+			break;
+		case MovieResponse.ResponseType.UnknownRequest:
+			success = false;
+			message = "Неизвестный запрос!";
+			break;
+		default:
+			throw new NotImplementedException("response.Response неизвестного типа!");
+		}
+		
+		MessageBox.Show(message, "",
+			MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+	}
+
 	/// <summary> Отправка запроса на сервер </summary>
 	private void SendRequest()
 	{
 		try {
 			var json = JsonSerializer.Serialize(this._request);
-			this._buf = Encoding.UTF8.GetBytes(json);
+			var buf = Encoding.UTF8.GetBytes(json);
 
 			//проверка _socket на null должна быть заранее
 			Debug.Assert(this._socket is not null);
-			this._socket.Send(this._buf);
+			this._socket.Send(buf);
 		}
 		catch (Exception ex) {
 			MessageBox.Show($"Не удалось отправить запрос!\r\n{ex.Message}", "Ошибка",
