@@ -83,6 +83,7 @@ public partial class FormMain : Form
 		}
 		this._socket = null;
 		this.buttonConnectSwitch.Text = "Подключиться";
+		this.buttonChangeServer.Enabled = true;
 	}
 
 	/// <summary> Обработка подключения к серверу </summary>
@@ -98,6 +99,7 @@ public partial class FormMain : Form
 			var newSock = new Socket(SocketType.Stream, ProtocolType.Tcp);
 			newSock.Connect(endPoint);
 			this.buttonConnectSwitch.Text = "Отключиться";
+			this.buttonChangeServer.Enabled = false;
 			this._socket = newSock;
 		}
 		catch (Exception e) {
