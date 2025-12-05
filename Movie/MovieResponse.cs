@@ -11,6 +11,9 @@ public class MovieResponse
 		Updated,
 		Deleted,
 		NotFound,
+		NotAdded,
+		NotUpdated,
+		NotDeleted,
 		UnknownRequest
 	}
 
@@ -18,5 +21,5 @@ public class MovieResponse
 	public ResponseType Response { get; set; } = ResponseType.NotFound;
 
 	/// <summary> Данные о фильме </summary>
-	public Movie? Movie { get; set; } = new();
+	public Movie? Movie { get; set; } = null;
 }
