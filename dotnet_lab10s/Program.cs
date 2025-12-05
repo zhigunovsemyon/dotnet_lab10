@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -109,7 +110,11 @@ static class Program
 				}
 
 				var response = WorkWithRemoteString(Encoding.UTF8.GetString(buf, 0, recieved));
-				
+				var json = JsonSerializer.Serialize(response);
+				var written = Encoding.UTF8.GetBytes(json, 0, json.Length, buf, 0);
+
+				var sent = sock.Send(buf,written, SocketFlags.None);
+				Debug.Assert(sent == written);
 			} while (true);
 		}
 		catch (Exception ex) {
