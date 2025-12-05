@@ -185,14 +185,30 @@ public partial class FormMain : Form
 	}
 
 	private void radioButtonGet_CheckedChanged(object sender, EventArgs e)
-		=> this._activeRadio = 'g';
+	{
+		this._activeRadio = 'g';
+		this.textBoxGenre.ReadOnly = true;
+		this.maskedTextBoxYear.ReadOnly = true;
+	}
 
 	private void radioButtonDelete_CheckedChanged(object sender, EventArgs e)
-		=> this._activeRadio = 'd';
+	{ 
+		this.textBoxGenre.ReadOnly = true;
+		this.maskedTextBoxYear.ReadOnly = true;
+		this._activeRadio = 'd'; 
+	}
 
 	private void radioButtonAdd_CheckedChanged(object sender, EventArgs e)
-		=> this._activeRadio = 'a';
+	{ 
+		this.textBoxGenre.ReadOnly = false;
+		this.maskedTextBoxYear.ReadOnly = false;
+		this._activeRadio = 'a'; 
+	}
 
 	private void radioButtonUpdate_CheckedChanged(object sender, EventArgs e)
-		=> this._activeRadio = 'u';
+	{ 
+		this.maskedTextBoxYear.ReadOnly = false;
+		this.textBoxGenre.ReadOnly = false;
+		this._activeRadio = 'u'; 
+	}
 }

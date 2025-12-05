@@ -25,224 +25,224 @@
 		///  Required method for Designer support - do not modify
 		///  the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent ()
+		private void InitializeComponent()
 		{
-			this.statusStrip = new StatusStrip();
-			this.toolStripStatusLabelServerAddress = new ToolStripStatusLabel();
-			this.groupBoxAction = new GroupBox();
-			this.radioButtonUpdate = new RadioButton();
-			this.radioButtonGet = new RadioButton();
-			this.radioButtonDelete = new RadioButton();
-			this.radioButtonAdd = new RadioButton();
-			this.buttonChangeServer = new Button();
-			this.buttonConnectSwitch = new Button();
-			this.groupBoxMovie = new GroupBox();
-			this.labelYear = new Label();
-			this.labelGenre = new Label();
-			this.labelTitle = new Label();
-			this.maskedTextBoxYear = new MaskedTextBox();
-			this.textBoxGenre = new TextBox();
-			this.textBoxTitle = new TextBox();
-			this.buttonAction = new Button();
-			this.statusStrip.SuspendLayout();
-			this.groupBoxAction.SuspendLayout();
-			this.groupBoxMovie.SuspendLayout();
-			this.SuspendLayout();
+			statusStrip = new StatusStrip();
+			toolStripStatusLabelServerAddress = new ToolStripStatusLabel();
+			groupBoxAction = new GroupBox();
+			radioButtonUpdate = new RadioButton();
+			radioButtonGet = new RadioButton();
+			radioButtonDelete = new RadioButton();
+			radioButtonAdd = new RadioButton();
+			buttonChangeServer = new Button();
+			buttonConnectSwitch = new Button();
+			groupBoxMovie = new GroupBox();
+			labelYear = new Label();
+			labelGenre = new Label();
+			labelTitle = new Label();
+			maskedTextBoxYear = new MaskedTextBox();
+			textBoxGenre = new TextBox();
+			textBoxTitle = new TextBox();
+			buttonAction = new Button();
+			statusStrip.SuspendLayout();
+			groupBoxAction.SuspendLayout();
+			groupBoxMovie.SuspendLayout();
+			SuspendLayout();
 			// 
 			// statusStrip
 			// 
-			this.statusStrip.Items.AddRange(new ToolStripItem[] { this.toolStripStatusLabelServerAddress });
-			this.statusStrip.Location = new Point(0, 211);
-			this.statusStrip.Name = "statusStrip";
-			this.statusStrip.Size = new Size(330, 22);
-			this.statusStrip.TabIndex = 0;
-			this.statusStrip.Text = "statusStrip1";
+			statusStrip.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelServerAddress });
+			statusStrip.Location = new Point(0, 211);
+			statusStrip.Name = "statusStrip";
+			statusStrip.Size = new Size(330, 22);
+			statusStrip.TabIndex = 0;
+			statusStrip.Text = "statusStrip1";
 			// 
 			// toolStripStatusLabelServerAddress
 			// 
-			this.toolStripStatusLabelServerAddress.Name = "toolStripStatusLabelServerAddress";
-			this.toolStripStatusLabelServerAddress.Size = new Size(148, 17);
-			this.toolStripStatusLabelServerAddress.Text = "Сервер для подключения";
+			toolStripStatusLabelServerAddress.Name = "toolStripStatusLabelServerAddress";
+			toolStripStatusLabelServerAddress.Size = new Size(148, 17);
+			toolStripStatusLabelServerAddress.Text = "Сервер для подключения";
 			// 
 			// groupBoxAction
 			// 
-			this.groupBoxAction.Controls.Add(this.radioButtonUpdate);
-			this.groupBoxAction.Controls.Add(this.radioButtonGet);
-			this.groupBoxAction.Controls.Add(this.radioButtonDelete);
-			this.groupBoxAction.Controls.Add(this.radioButtonAdd);
-			this.groupBoxAction.Location = new Point(12, 12);
-			this.groupBoxAction.Name = "groupBoxAction";
-			this.groupBoxAction.Size = new Size(100, 124);
-			this.groupBoxAction.TabIndex = 1;
-			this.groupBoxAction.TabStop = false;
-			this.groupBoxAction.Text = "Действие";
+			groupBoxAction.Controls.Add(radioButtonUpdate);
+			groupBoxAction.Controls.Add(radioButtonGet);
+			groupBoxAction.Controls.Add(radioButtonDelete);
+			groupBoxAction.Controls.Add(radioButtonAdd);
+			groupBoxAction.Location = new Point(12, 12);
+			groupBoxAction.Name = "groupBoxAction";
+			groupBoxAction.Size = new Size(100, 124);
+			groupBoxAction.TabIndex = 1;
+			groupBoxAction.TabStop = false;
+			groupBoxAction.Text = "Действие";
 			// 
 			// radioButtonUpdate
 			// 
-			this.radioButtonUpdate.AutoSize = true;
-			this.radioButtonUpdate.Location = new Point(6, 97);
-			this.radioButtonUpdate.Name = "radioButtonUpdate";
-			this.radioButtonUpdate.Size = new Size(79, 19);
-			this.radioButtonUpdate.TabIndex = 5;
-			this.radioButtonUpdate.TabStop = true;
-			this.radioButtonUpdate.Text = "Обновить";
-			this.radioButtonUpdate.UseVisualStyleBackColor = true;
-			this.radioButtonUpdate.CheckedChanged += this.radioButtonUpdate_CheckedChanged;
+			radioButtonUpdate.AutoSize = true;
+			radioButtonUpdate.Location = new Point(6, 97);
+			radioButtonUpdate.Name = "radioButtonUpdate";
+			radioButtonUpdate.Size = new Size(79, 19);
+			radioButtonUpdate.TabIndex = 5;
+			radioButtonUpdate.TabStop = true;
+			radioButtonUpdate.Text = "Обновить";
+			radioButtonUpdate.UseVisualStyleBackColor = true;
+			radioButtonUpdate.CheckedChanged += radioButtonUpdate_CheckedChanged;
 			// 
 			// radioButtonGet
 			// 
-			this.radioButtonGet.AutoSize = true;
-			this.radioButtonGet.Location = new Point(6, 22);
-			this.radioButtonGet.Name = "radioButtonGet";
-			this.radioButtonGet.Size = new Size(79, 19);
-			this.radioButtonGet.TabIndex = 2;
-			this.radioButtonGet.TabStop = true;
-			this.radioButtonGet.Text = "Получить";
-			this.radioButtonGet.UseVisualStyleBackColor = true;
-			this.radioButtonGet.CheckedChanged += this.radioButtonGet_CheckedChanged;
+			radioButtonGet.AutoSize = true;
+			radioButtonGet.Location = new Point(6, 22);
+			radioButtonGet.Name = "radioButtonGet";
+			radioButtonGet.Size = new Size(79, 19);
+			radioButtonGet.TabIndex = 2;
+			radioButtonGet.TabStop = true;
+			radioButtonGet.Text = "Получить";
+			radioButtonGet.UseVisualStyleBackColor = true;
+			radioButtonGet.CheckedChanged += radioButtonGet_CheckedChanged;
 			// 
 			// radioButtonDelete
 			// 
-			this.radioButtonDelete.AutoSize = true;
-			this.radioButtonDelete.Location = new Point(6, 47);
-			this.radioButtonDelete.Name = "radioButtonDelete";
-			this.radioButtonDelete.Size = new Size(69, 19);
-			this.radioButtonDelete.TabIndex = 3;
-			this.radioButtonDelete.TabStop = true;
-			this.radioButtonDelete.Text = "Удалить";
-			this.radioButtonDelete.UseVisualStyleBackColor = true;
-			this.radioButtonDelete.CheckedChanged += this.radioButtonDelete_CheckedChanged;
+			radioButtonDelete.AutoSize = true;
+			radioButtonDelete.Location = new Point(6, 47);
+			radioButtonDelete.Name = "radioButtonDelete";
+			radioButtonDelete.Size = new Size(69, 19);
+			radioButtonDelete.TabIndex = 3;
+			radioButtonDelete.TabStop = true;
+			radioButtonDelete.Text = "Удалить";
+			radioButtonDelete.UseVisualStyleBackColor = true;
+			radioButtonDelete.CheckedChanged += radioButtonDelete_CheckedChanged;
 			// 
 			// radioButtonAdd
 			// 
-			this.radioButtonAdd.AutoSize = true;
-			this.radioButtonAdd.Location = new Point(6, 72);
-			this.radioButtonAdd.Name = "radioButtonAdd";
-			this.radioButtonAdd.Size = new Size(77, 19);
-			this.radioButtonAdd.TabIndex = 4;
-			this.radioButtonAdd.TabStop = true;
-			this.radioButtonAdd.Text = "Добавить";
-			this.radioButtonAdd.UseVisualStyleBackColor = true;
-			this.radioButtonAdd.CheckedChanged += this.radioButtonAdd_CheckedChanged;
+			radioButtonAdd.AutoSize = true;
+			radioButtonAdd.Location = new Point(6, 72);
+			radioButtonAdd.Name = "radioButtonAdd";
+			radioButtonAdd.Size = new Size(77, 19);
+			radioButtonAdd.TabIndex = 4;
+			radioButtonAdd.TabStop = true;
+			radioButtonAdd.Text = "Добавить";
+			radioButtonAdd.UseVisualStyleBackColor = true;
+			radioButtonAdd.CheckedChanged += radioButtonAdd_CheckedChanged;
 			// 
 			// buttonChangeServer
 			// 
-			this.buttonChangeServer.Location = new Point(9, 176);
-			this.buttonChangeServer.Name = "buttonChangeServer";
-			this.buttonChangeServer.Size = new Size(174, 23);
-			this.buttonChangeServer.TabIndex = 2;
-			this.buttonChangeServer.Text = "Изменить адрес сервера";
-			this.buttonChangeServer.UseVisualStyleBackColor = true;
-			this.buttonChangeServer.Click += this.buttonChangeServer_Click;
+			buttonChangeServer.Location = new Point(9, 176);
+			buttonChangeServer.Name = "buttonChangeServer";
+			buttonChangeServer.Size = new Size(174, 23);
+			buttonChangeServer.TabIndex = 2;
+			buttonChangeServer.Text = "Изменить адрес сервера";
+			buttonChangeServer.UseVisualStyleBackColor = true;
+			buttonChangeServer.Click += buttonChangeServer_Click;
 			// 
 			// buttonConnectSwitch
 			// 
-			this.buttonConnectSwitch.Location = new Point(189, 176);
-			this.buttonConnectSwitch.Name = "buttonConnectSwitch";
-			this.buttonConnectSwitch.Size = new Size(129, 23);
-			this.buttonConnectSwitch.TabIndex = 3;
-			this.buttonConnectSwitch.Text = "Подключиться";
-			this.buttonConnectSwitch.UseVisualStyleBackColor = true;
-			this.buttonConnectSwitch.Click += this.buttonConnectSwitch_Click;
+			buttonConnectSwitch.Location = new Point(189, 176);
+			buttonConnectSwitch.Name = "buttonConnectSwitch";
+			buttonConnectSwitch.Size = new Size(129, 23);
+			buttonConnectSwitch.TabIndex = 3;
+			buttonConnectSwitch.Text = "Подключиться";
+			buttonConnectSwitch.UseVisualStyleBackColor = true;
+			buttonConnectSwitch.Click += buttonConnectSwitch_Click;
 			// 
 			// groupBoxMovie
 			// 
-			this.groupBoxMovie.Controls.Add(this.labelYear);
-			this.groupBoxMovie.Controls.Add(this.labelGenre);
-			this.groupBoxMovie.Controls.Add(this.labelTitle);
-			this.groupBoxMovie.Controls.Add(this.maskedTextBoxYear);
-			this.groupBoxMovie.Controls.Add(this.textBoxGenre);
-			this.groupBoxMovie.Controls.Add(this.textBoxTitle);
-			this.groupBoxMovie.Location = new Point(118, 12);
-			this.groupBoxMovie.Name = "groupBoxMovie";
-			this.groupBoxMovie.Size = new Size(200, 158);
-			this.groupBoxMovie.TabIndex = 4;
-			this.groupBoxMovie.TabStop = false;
-			this.groupBoxMovie.Text = "Данные о фильме";
+			groupBoxMovie.Controls.Add(labelYear);
+			groupBoxMovie.Controls.Add(labelGenre);
+			groupBoxMovie.Controls.Add(labelTitle);
+			groupBoxMovie.Controls.Add(maskedTextBoxYear);
+			groupBoxMovie.Controls.Add(textBoxGenre);
+			groupBoxMovie.Controls.Add(textBoxTitle);
+			groupBoxMovie.Location = new Point(118, 12);
+			groupBoxMovie.Name = "groupBoxMovie";
+			groupBoxMovie.Size = new Size(200, 158);
+			groupBoxMovie.TabIndex = 4;
+			groupBoxMovie.TabStop = false;
+			groupBoxMovie.Text = "Данные о фильме";
 			// 
 			// labelYear
 			// 
-			this.labelYear.AutoSize = true;
-			this.labelYear.Location = new Point(6, 106);
-			this.labelYear.Name = "labelYear";
-			this.labelYear.Size = new Size(26, 15);
-			this.labelYear.TabIndex = 5;
-			this.labelYear.Text = "Год";
+			labelYear.AutoSize = true;
+			labelYear.Location = new Point(6, 106);
+			labelYear.Name = "labelYear";
+			labelYear.Size = new Size(26, 15);
+			labelYear.TabIndex = 5;
+			labelYear.Text = "Год";
 			// 
 			// labelGenre
 			// 
-			this.labelGenre.AutoSize = true;
-			this.labelGenre.Location = new Point(6, 62);
-			this.labelGenre.Name = "labelGenre";
-			this.labelGenre.Size = new Size(38, 15);
-			this.labelGenre.TabIndex = 4;
-			this.labelGenre.Text = "Жанр";
+			labelGenre.AutoSize = true;
+			labelGenre.Location = new Point(6, 62);
+			labelGenre.Name = "labelGenre";
+			labelGenre.Size = new Size(38, 15);
+			labelGenre.TabIndex = 4;
+			labelGenre.Text = "Жанр";
 			// 
 			// labelTitle
 			// 
-			this.labelTitle.AutoSize = true;
-			this.labelTitle.Location = new Point(6, 18);
-			this.labelTitle.Name = "labelTitle";
-			this.labelTitle.Size = new Size(59, 15);
-			this.labelTitle.TabIndex = 3;
-			this.labelTitle.Text = "Название";
+			labelTitle.AutoSize = true;
+			labelTitle.Location = new Point(6, 18);
+			labelTitle.Name = "labelTitle";
+			labelTitle.Size = new Size(59, 15);
+			labelTitle.TabIndex = 3;
+			labelTitle.Text = "Название";
 			// 
 			// maskedTextBoxYear
 			// 
-			this.maskedTextBoxYear.Location = new Point(6, 124);
-			this.maskedTextBoxYear.Mask = "0000";
-			this.maskedTextBoxYear.Name = "maskedTextBoxYear";
-			this.maskedTextBoxYear.Size = new Size(59, 23);
-			this.maskedTextBoxYear.TabIndex = 2;
-			this.maskedTextBoxYear.ValidatingType = typeof(int);
+			maskedTextBoxYear.Location = new Point(6, 124);
+			maskedTextBoxYear.Mask = "0000";
+			maskedTextBoxYear.Name = "maskedTextBoxYear";
+			maskedTextBoxYear.Size = new Size(59, 23);
+			maskedTextBoxYear.TabIndex = 2;
+			maskedTextBoxYear.ValidatingType = typeof(int);
 			// 
 			// textBoxGenre
 			// 
-			this.textBoxGenre.Location = new Point(6, 80);
-			this.textBoxGenre.Name = "textBoxGenre";
-			this.textBoxGenre.Size = new Size(188, 23);
-			this.textBoxGenre.TabIndex = 1;
+			textBoxGenre.Location = new Point(6, 80);
+			textBoxGenre.Name = "textBoxGenre";
+			textBoxGenre.Size = new Size(188, 23);
+			textBoxGenre.TabIndex = 1;
 			// 
 			// textBoxTitle
 			// 
-			this.textBoxTitle.Location = new Point(6, 36);
-			this.textBoxTitle.Name = "textBoxTitle";
-			this.textBoxTitle.Size = new Size(188, 23);
-			this.textBoxTitle.TabIndex = 0;
+			textBoxTitle.Location = new Point(6, 36);
+			textBoxTitle.Name = "textBoxTitle";
+			textBoxTitle.Size = new Size(188, 23);
+			textBoxTitle.TabIndex = 0;
 			// 
 			// buttonAction
 			// 
-			this.buttonAction.Location = new Point(9, 142);
-			this.buttonAction.Name = "buttonAction";
-			this.buttonAction.Size = new Size(103, 23);
-			this.buttonAction.TabIndex = 7;
-			this.buttonAction.Text = "Выполнить";
-			this.buttonAction.UseVisualStyleBackColor = true;
-			this.buttonAction.Click += this.buttonAction_Click;
+			buttonAction.Location = new Point(9, 142);
+			buttonAction.Name = "buttonAction";
+			buttonAction.Size = new Size(103, 23);
+			buttonAction.TabIndex = 7;
+			buttonAction.Text = "Выполнить";
+			buttonAction.UseVisualStyleBackColor = true;
+			buttonAction.Click += buttonAction_Click;
 			// 
 			// FormMain
 			// 
-			this.AutoScaleDimensions = new SizeF(7F, 15F);
-			this.AutoScaleMode = AutoScaleMode.Font;
-			this.ClientSize = new Size(330, 233);
-			this.Controls.Add(this.buttonAction);
-			this.Controls.Add(this.groupBoxMovie);
-			this.Controls.Add(this.buttonConnectSwitch);
-			this.Controls.Add(this.buttonChangeServer);
-			this.Controls.Add(this.groupBoxAction);
-			this.Controls.Add(this.statusStrip);
-			this.FormBorderStyle = FormBorderStyle.FixedSingle;
-			this.MaximizeBox = false;
-			this.Name = "FormMain";
-			this.Text = "Фильмы";
-			this.statusStrip.ResumeLayout(false);
-			this.statusStrip.PerformLayout();
-			this.groupBoxAction.ResumeLayout(false);
-			this.groupBoxAction.PerformLayout();
-			this.groupBoxMovie.ResumeLayout(false);
-			this.groupBoxMovie.PerformLayout();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleMode = AutoScaleMode.Font;
+			ClientSize = new Size(330, 233);
+			Controls.Add(buttonAction);
+			Controls.Add(groupBoxMovie);
+			Controls.Add(buttonConnectSwitch);
+			Controls.Add(buttonChangeServer);
+			Controls.Add(groupBoxAction);
+			Controls.Add(statusStrip);
+			FormBorderStyle = FormBorderStyle.FixedSingle;
+			MaximizeBox = false;
+			Name = "FormMain";
+			Text = "Фильмы";
+			statusStrip.ResumeLayout(false);
+			statusStrip.PerformLayout();
+			groupBoxAction.ResumeLayout(false);
+			groupBoxAction.PerformLayout();
+			groupBoxMovie.ResumeLayout(false);
+			groupBoxMovie.PerformLayout();
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
