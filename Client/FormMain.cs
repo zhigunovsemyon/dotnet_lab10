@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Text.Json;
 using MovieLibrary;
-using MovieLibrary.MovieException;
 
 namespace Client;
 
@@ -14,6 +14,9 @@ public partial class FormMain : Form
 
 	/// <summary> Запрос, отправляемый на сервер </summary>
 	private readonly MovieRequest _request = new();
+
+	/// <summary> Буфер для запросов </summary>
+	private byte[] _buf = new byte[1024];
 
 	/// <summary> Сокет подключения к серверу </summary>
 	private Socket? _socket = null;
@@ -198,7 +201,7 @@ public partial class FormMain : Form
 		}
 
 		switch (this._request.Request) {
-		case MovieRequest.RequestType.Add:			
+		case MovieRequest.RequestType.Add:
 			if (this.AddMovieToRequest()) {
 				return;
 			}
@@ -221,8 +224,24 @@ public partial class FormMain : Form
 		default:
 			throw new NotImplementedException("this._request: неизвестное значение");
 		}
+		this.SendRequest();
+	}
 
-		var json = JsonSerializer.Serialize(this._request);
+	/// <summary> Отправка запроса на сервер </summary>
+	private void SendRequest()
+	{
+		try {
+			var json = JsonSerializer.Serialize(this._request);
+			this._buf = Encoding.UTF8.GetBytes(json);
+
+			//проверка _socket на null должна быть заранее
+			Debug.Assert(this._socket is not null);
+			this._socket.Send(this._buf);
+		}
+		catch (Exception ex) {
+			MessageBox.Show($"Не удалось отправить запрос!\r\n{ex.Message}", "Ошибка",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
 	}
 
 	private void radioButtonGet_CheckedChanged(object sender, EventArgs e)
