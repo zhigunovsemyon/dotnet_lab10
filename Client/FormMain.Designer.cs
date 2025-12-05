@@ -237,6 +237,7 @@
 			MaximizeBox = false;
 			Name = "FormMain";
 			Text = "Фильмы";
+			FormClosing += FormMain_FormClosing;
 			statusStrip.ResumeLayout(false);
 			statusStrip.PerformLayout();
 			groupBoxAction.ResumeLayout(false);

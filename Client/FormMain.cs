@@ -162,7 +162,7 @@ public partial class FormMain : Form
 
 	/// <summary> Добавление данных о фильме в запрос серверу </summary>
 	/// <returns>true при ошибке, false при успехе</returns>
-	private bool AddMovieToRequest ()
+	private bool AddMovieToRequest()
 	{
 		if (this.VerifyFields()) {
 			return true;
@@ -177,7 +177,7 @@ public partial class FormMain : Form
 
 	/// <summary> Добавление названия фильма в запрос серверу </summary>
 	/// <returns>true при ошибке, false при успехе</returns>
-	private bool AddMovieTitleToRequest ()
+	private bool AddMovieTitleToRequest()
 	{
 		if (this.VerifyTitle()) {
 			return true;
@@ -250,23 +250,30 @@ public partial class FormMain : Form
 	}
 
 	private void radioButtonDelete_CheckedChanged(object sender, EventArgs e)
-	{ 
+	{
 		this.textBoxGenre.Enabled = false;
 		this.maskedTextBoxYear.Enabled = false;
 		this._request.Request = MovieRequest.RequestType.Delete;
 	}
 
 	private void radioButtonAdd_CheckedChanged(object sender, EventArgs e)
-	{ 
+	{
 		this.textBoxGenre.Enabled = true;
 		this.maskedTextBoxYear.Enabled = true;
 		this._request.Request = MovieRequest.RequestType.Add;
 	}
 
 	private void radioButtonUpdate_CheckedChanged(object sender, EventArgs e)
-	{ 
+	{
 		this.maskedTextBoxYear.Enabled = true;
 		this.textBoxGenre.Enabled = true;
 		this._request.Request = MovieRequest.RequestType.Update;
+	}
+
+	private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+	{
+		if (this._socket is not null) {
+			this.Disonnect();
+		}
 	}
 }
