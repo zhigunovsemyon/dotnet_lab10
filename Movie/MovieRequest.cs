@@ -3,9 +3,7 @@
 /// <summary> Запрос от клиента серверу </summary>
 public class MovieRequest
 {
-	/// <summary>
-	/// Возможные запросы
-	/// </summary>
+	/// <summary> Возможные запросы </summary>
 	public enum RequestType
 	{
 		Get,
