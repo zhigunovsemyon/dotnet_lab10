@@ -9,17 +9,27 @@ namespace Server;
 
 static class Program
 {
-
+	/// <summary> Таймаут сохранения </summary>
 	private static readonly TimeSpan _saveInterval = TimeSpan.FromSeconds(10.0);
+
+	/// <summary>  Стандартное название базы с фильмами </summary>
 	private const string _filename = "movies.json";
 
-	private static readonly JsonSerializerOptions _options = new() { AllowTrailingCommas = true, WriteIndented = true };
+	/// <summary> Параметры json для файла с фильмами </summary>
+	private static readonly JsonSerializerOptions _optionsOnSave = new()
+	{
+		AllowTrailingCommas = true,
+		WriteIndented = true
+	};
+
+	/// <summary> Ответ сервера на запрос </summary>
+	//private static readonly MovieResponse _response = new();
 
 	/// <summary> Список фильмов </summary>
 	private static ConcurrentDictionary<string, Movie> _movieList = new();
 
 	/// <summary> Адрес и порт для прослушивания </summary>
-	static readonly IPEndPoint listenTo = new IPEndPoint(IPAddress.IPv6Any, 9876);
+	static readonly IPEndPoint listenTo = new(IPAddress.IPv6Any, 9876);
 
 	static void Main(string[] args)
 	{
@@ -52,7 +62,7 @@ static class Program
 	{
 		do {
 			Thread.Sleep(_saveInterval);
-			var json = JsonSerializer.Serialize(_movieList, _options);
+			var json = JsonSerializer.Serialize(_movieList, _optionsOnSave);
 			File.WriteAllText(_filename, json);
 			Console.WriteLine("Список сохранён в файл {0}", _filename);
 		} while (true);
@@ -67,7 +77,7 @@ static class Program
 		}
 		catch { }
 
-		_movieList = JsonSerializer.Deserialize<ConcurrentDictionary<string, Movie>>(json, _options) ?? new();
+		_movieList = JsonSerializer.Deserialize<ConcurrentDictionary<string, Movie>>(json, _optionsOnSave) ?? new();
 	}
 
 	/// <summary> Вывод списка фильмов </summary>
@@ -97,7 +107,9 @@ static class Program
 				if (0 == recieved) {
 					break;
 				}
-				WorkWithRemoteString(Encoding.UTF8.GetString(buf, 0, recieved));
+
+				var response = WorkWithRemoteString(Encoding.UTF8.GetString(buf, 0, recieved));
+				
 			} while (true);
 		}
 		catch (Exception ex) {
@@ -108,69 +120,80 @@ static class Program
 		}
 	}
 
-	private static void WorkWithRemoteString(string remoteString)
+	/// <summary> Создание объекта ответа на основе запроса </summary>
+	/// <param name="remoteString">Строка с запросом</param>
+	/// <returns> Объект ответа </returns>
+	private static MovieResponse WorkWithRemoteString(string remoteString)
 	{
 		try {
 			var request = JsonSerializer.Deserialize<MovieLibrary.MovieRequest>(remoteString)
 				?? throw new Exception("WorkWithRemoteString: JsonSerializer.Deserialize вернул null!");
-			switch (request.Request) {
-			case MovieRequest.RequestType.Get:
-				Console.WriteLine(GetMovie(request.Movie)?.ToString() ?? "no");
-				break;
-			case MovieRequest.RequestType.Add:
-				Console.WriteLine("Add: {0}", AddMovie(request.Movie));
-				break;
-			case MovieRequest.RequestType.Update:
-				Console.WriteLine("Update: {0}", UpdateMovie(request.Movie));
-				break;
-			case MovieRequest.RequestType.Delete:
-				Console.WriteLine("Update: {0}", DeleteMovie(request.Movie));
-				break;
-			default:
-				throw new NotImplementedException("WorkWithRemoteString: request.Request неизвестного типа!");
-			}
-		} catch (Exception ex) {
+			return request.Request switch
+			{
+				MovieRequest.RequestType.Get => GetMovie(request.Movie),
+				MovieRequest.RequestType.Add => AddMovie(request.Movie),
+				MovieRequest.RequestType.Update => UpdateMovie(request.Movie),
+				MovieRequest.RequestType.Delete => DeleteMovie(request.Movie),
+				_ => new MovieResponse() 
+				{ 
+					Movie = null, 
+					Response = MovieResponse.ResponseType.UnknownRequest 
+				}
+			};
+		}
+		catch (Exception ex) {
 			Console.Error.WriteLine($"Ошибка при обработке: {ex.Message}");
+			return new MovieResponse() { Movie = null, Response = MovieResponse.ResponseType.Error };
 		}
 	}
 
 	/// <summary> Добавление новой записи или замена старой </summary>
 	/// <param name="movie">Новая запись</param>
-	/// <returns> true при удачном добавлении, false при ошибке </returns>
-	private static bool UpdateMovie(Movie movie)
+	/// <returns> 
+	/// Ответ с информацией об удачном или неудачном обновлении,
+	/// либо соответствующая информация о добавлении, если нет старой записи
+	/// </returns>
+	private static MovieResponse UpdateMovie(Movie movie)
 	{
 		string key = movie.Title.ToLower();
 		if (_movieList.TryGetValue(key, out var oldMovie)) {
-			_movieList.TryUpdate(key, movie, oldMovie);
-			return true;
+			return (_movieList.TryUpdate(key, movie, oldMovie))
+				? new MovieResponse() { Response = MovieResponse.ResponseType.Updated, Movie = null }
+				: new MovieResponse() { Response = MovieResponse.ResponseType.NotUpdated, Movie = null };
 		}
 		return AddMovie(movie);
 	}
 
 	/// <summary> Добавление новой записи </summary>
 	/// <param name="movie">Новая запись</param>
-	/// <returns> true при удачном добавлении, false если такая запись уже есть </returns>
-	private static bool AddMovie(Movie movie)
+	/// <returns> Ответ с информацией об удачном или неудачном добавлении </returns>
+	private static MovieResponse AddMovie(Movie movie)
 	{
 		string key = movie.Title.ToLower();
-		return _movieList.TryAdd(key, movie);
+		return (_movieList.TryAdd(key, movie))
+			? new MovieResponse() { Response = MovieResponse.ResponseType.Added, Movie = null }
+			: new MovieResponse() { Response = MovieResponse.ResponseType.NotAdded, Movie = null };
 	}
 
 	/// <summary> Удаление записи </summary>
 	/// <param name="movie">Запись</param>
-	/// <returns> true при удачном удалении, false при ошибке </returns>
-	private static bool DeleteMovie(Movie movie)
+	/// <returns> Ответ с информацией об удачном или неудачном удалении </returns>
+	private static MovieResponse DeleteMovie(Movie movie)
 	{
 		string key = movie.Title.ToLower();
-		return _movieList.TryRemove(key, out _);
+		return (_movieList.TryRemove(key, out _))
+			? new MovieResponse() { Response = MovieResponse.ResponseType.Deleted, Movie = null }
+			: new MovieResponse() { Response = MovieResponse.ResponseType.NotDeleted, Movie = null };
 	}
 
 	/// <summary> Поиск записи </summary>
 	/// <param name="movie">Неполная запись с названием </param>
-	/// <returns> Запись при обнаружении, либо null </returns>
-	private static Movie? GetMovie(Movie movieKey)
+	/// <returns> Ответ с фильмом, либо информацией о его отсутствии </returns>
+	private static MovieResponse GetMovie(Movie movieKey)
 	{
 		string key = movieKey.Title.ToLower();
-		return _movieList.TryGetValue(key, out var movie) ? movie : null;
+		return (_movieList.TryGetValue(key, out var foundMovie))
+			? new MovieResponse() { Movie = foundMovie, Response = MovieResponse.ResponseType.Found }
+			: new MovieResponse() { Movie = null, Response = MovieResponse.ResponseType.NotFound };
 	}
 }
