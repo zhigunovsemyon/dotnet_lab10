@@ -18,5 +18,5 @@ public class MovieRequest
 	public RequestType Request {  get; set; } = RequestType.Get;
 
 	/// <summary> Новые данные о фильме </summary>
-	public Movie? Movie { get; set; }
+	public Movie Movie { get; set; } = new();
 }

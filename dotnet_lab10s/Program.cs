@@ -111,8 +111,24 @@ static class Program
 	private static void WorkWithRemoteString(string remoteString)
 	{
 		try {
-			var request = JsonSerializer.Deserialize<MovieLibrary.MovieRequest>(remoteString);
-			Console.WriteLine(request?.Movie);
+			var request = JsonSerializer.Deserialize<MovieLibrary.MovieRequest>(remoteString)
+				?? throw new Exception("WorkWithRemoteString: JsonSerializer.Deserialize вернул null!");
+			switch (request.Request) {
+			case MovieRequest.RequestType.Get:
+				Console.WriteLine(GetMovie(request.Movie)?.ToString() ?? "no");
+				break;
+			case MovieRequest.RequestType.Add:
+				Console.WriteLine("Add: {0}", AddMovie(request.Movie));
+				break;
+			case MovieRequest.RequestType.Update:
+				Console.WriteLine("Update: {0}", UpdateMovie(request.Movie));
+				break;
+			case MovieRequest.RequestType.Delete:
+				Console.WriteLine("Update: {0}", DeleteMovie(request.Movie));
+				break;
+			default:
+				throw new NotImplementedException("WorkWithRemoteString: request.Request неизвестного типа!");
+			}
 		} catch (Exception ex) {
 			Console.Error.WriteLine($"Ошибка при обработке: {ex.Message}");
 		}
