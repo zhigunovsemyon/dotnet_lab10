@@ -14,7 +14,8 @@ public class MovieResponse
 		NotAdded,
 		NotUpdated,
 		NotDeleted,
-		UnknownRequest
+		UnknownRequest,
+		Error
 	}
 
 	/// <summary> Ответ </summary>
