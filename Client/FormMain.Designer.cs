@@ -189,6 +189,7 @@
 			// 
 			// maskedTextBoxYear
 			// 
+			maskedTextBoxYear.Enabled = false;
 			maskedTextBoxYear.Location = new Point(6, 124);
 			maskedTextBoxYear.Mask = "0000";
 			maskedTextBoxYear.Name = "maskedTextBoxYear";
@@ -198,6 +199,7 @@
 			// 
 			// textBoxGenre
 			// 
+			textBoxGenre.Enabled = false;
 			textBoxGenre.Location = new Point(6, 80);
 			textBoxGenre.Name = "textBoxGenre";
 			textBoxGenre.Size = new Size(188, 23);
