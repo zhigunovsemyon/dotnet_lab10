@@ -1,7 +1,6 @@
 ﻿namespace MovieLibrary;
 
 /// <summary> Запись о фильме </summary>
-[Serializable]
 public class Movie
 {
 	private string _title = "";
